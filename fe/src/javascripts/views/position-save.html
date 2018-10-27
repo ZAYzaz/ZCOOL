@@ -1,0 +1,118 @@
+<div class="box box-info position-save">
+    <div class="box-header with-border">
+        <h3 class="box-title">添加职位信息</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form class="form-horizontal" id="save-form" enctype="multipart/form-data">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="logo" class="col-sm-2 control-label">公司Logo</label>
+
+                <div class="col-sm-10">
+                    <input required type="file" name="logo" id="logo">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="post_name" class="col-sm-2 control-label">职位名称</label> 
+                <div class="col-sm-10">
+                    <input required type="text" class="form-control" name="post_name" id="post_name" placeholder="请输入职位名字">
+                </div>
+            </div> 
+            <div class="form-group">
+                <label for="companyltd" class="col-sm-2 control-label">公司名称</label> 
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="companyltd" id="companyltd" placeholder="请输入职位名称">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="post_salary" class="col-sm-2 control-label">岗位薪资</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="post_salary" id="post_salary" placeholder="请输入职位名称">
+                </div>
+            </div>
+ 
+            <div class="form-group">
+                <label for="city" class="col-sm-2 control-label">工作城市</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="city" id="city" placeholder="请输入工作地点">
+                </div>
+            </div>
+
+
+ 
+
+
+            <div class="form-group">
+                <label for=“experience_name” class="col-sm-2 control-label">经验要求</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="experience_name" id="experience_name" placeholder="请输入薪资范围">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="diploma_name" class="col-sm-2 control-label">学历要求</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="diploma_name" id="diploma_name" placeholder="请输入薪资范围">
+                </div>
+            </div>
+
+            <!-- <div class="form-group">
+                <label for=“postEffectTime” class="col-sm-2 control-label">发布时间</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name=“postEffectTime” id=“postEffectTime” placeholder="请输入薪资范围">
+                </div>
+            </div> -->
+
+            <div class="form-group">
+                <label for="tag" class="col-sm-2 control-label">职位诱惑</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="tag" id="tag" placeholder="请输入薪资范围">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="industryAndStageName" class="col-sm-2 control-label">职位类型</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="industryAndStageName" id="industryAndStageName" placeholder="请输入薪资范围">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="size_name" class="col-sm-2 control-label">招聘人数</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="size_name" id="size_name" placeholder="请输入薪资范围">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="requirement" class="col-sm-2 control-label">工作职责</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="requirement" id="requirement" placeholder="请输入薪资范围">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="area" class="col-sm-2 control-label">详细地址</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="area" id="area" placeholder="请输入薪资范围">
+                </div>
+            </div>
+              
+            
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button" id="back" class="btn btn-default">返回列表</button>
+            <button type="submit" class="btn btn-info pull-right">提交</button>
+            <button type="reset" class="btn btn-default pull-right" style="margin-right: 15px">重置</button>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+</div>
