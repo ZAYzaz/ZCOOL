@@ -1,7 +1,8 @@
 
-const list = () => {
+const list = (page) => {
     return $.ajax({
         url: '/api/v1/position/list',
+        data:page,
         success:(results) => {
             
            return results
@@ -40,6 +41,7 @@ const remove = (data) => {
     return $.ajax({
         url: '/api/v1/position/remove',
         data,
+        type:'delete',
         success:(results) => {
             
            return results
@@ -59,16 +61,25 @@ const listone = (data) => {
 }
 
 // 更新数据
-const update = (data) => {
-    return $.ajax({
-        url: '/api/v1/position/update',
-        type:'post',
-        data,
+const update = () => {
+    // return $.ajax({
+    //     url: '/api/v1/position/update',
+    //     type:'post',
 
-        success:(results) => {
+    //     success:(results) => {
             
-           return results
-        }
+    //        return results
+    //     }
+    // })
+
+    return new Promise((resolve) => {
+        $('.position-update #update-form').ajaxSubmit({
+            url: '/api/v1/position/update',
+            type: 'POST',
+            success: (results) => {
+                resolve(results)
+            }
+        })
     })
 }
 

@@ -7,7 +7,16 @@ import not_found_template from '../views/404.html'
 
 import position_controller from '../controllers/position'
 
+// page-header 控制器
+import page_header_controller from '../controllers/page-header'
+
+// page-header model
+import page_header_model from '../models/page-header'
+
 var router = null
+
+// 记录上一次路由跳转的url
+var prevUrl = ''
 
 // 启动路由的方法
 const _init = () => {
@@ -19,6 +28,8 @@ const _init = () => {
         _activeLink(req.route) 
     })
 
+    // 保证都能匹配到，中间都能执行
+    router.route('/', renderPageHeader)
     
 
     router.route('/home', (req, res, next) => { // 当路由切换进来的时候执行
@@ -35,12 +46,12 @@ const _init = () => {
 
    
 
-
+   // 404路由
     router.route('/not-found', (req, res, next) => { // 当路由切换进来的时候执行
         res.render(not_found_template)
         _navLink('.not-found a[to]')
     })
-
+     //上面的没有匹配到就会跳转404路由或者首页
     router.route('*', (req, res, next) => {
         if ( req.url === '' ) { // 刚进入项目，没有hash值，重定向到home
             res.redirect('/home')
@@ -59,6 +70,14 @@ const _init = () => {
     // 给按钮添加事件
     _navLink()
     _treeMenu()
+}
+
+// 渲染页面头部
+const renderPageHeader = ( req, res, next ) => {
+    // 这里的prevUrl就是上一次的URL
+    page_header_controller.render(page_header_model.pageHeaderInfo(req.url, prevUrl))
+    // 已经进入到当前路由了，将上一次路由改成当前的路由
+    prevUrl = req.url
 }
 
 // 给导航按钮添加点击事件

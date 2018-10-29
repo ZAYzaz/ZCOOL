@@ -16,16 +16,26 @@ import { log } from 'util';
 
 // 列表视图的控制器
 const list = async (req, res, next) => {
+    req.query=req.query||{}
+
+    let _page = { // 页面信息， 当点击了分页器按钮后，页面url就会变化，然后list控制器就会重新执行，重新获取数据再渲染
+        pageNo: req.query.pageNo || 1,
+        pageSize: req.query.pageSize || 5,
+        search: req.query.search||''
+    }
     // 编译模板 
     let html = template.render(position_list_template, {
-        data: (await position_model.list()).data // 获取到列表数据
+        data: (await position_model.list(_page)).data // 获取到列表数据
     })
     res.render(html)
-    bindListEvent()// 给添加按钮绑定事件
+    bindListEvent(_page)// 给添加按钮绑定事件
+
+    // 显示搜索关键字
+    $('.position-list #keywords').val(_page.search)
 }
 
 // list的事件绑定
-const bindListEvent = () => {
+const bindListEvent = (_page) => {
     // 添加按钮点击跳转到添加路由
     $('.position-list #addbtn').on('click', function () {
         bus.emit('go','/position-save')
@@ -37,21 +47,38 @@ const bindListEvent = () => {
         
         bus.emit('go','/position-update', { id })
     })
-    $('.pos-remove').on('click', handleRemovePosition)
+    $('.pos-remove').on('click', function(){
+        //console.log("前端删除1");
+    
+      // handleRemovePosition.bind(this,_page)()//要调用，否则不执行 
+
+       handleRemovePosition.call(this, _page)
+    })
+    $('.position-list #possearch').on('click', function () {
+        let _search = $('.position-list #keywords').val()
+        // 重新刷新路由 ，注意，页码回复到1
+        let _params = {
+            search: _search,
+            pageNo: 1
+        }
+        bus.emit('go',`/position-list?${$.param(_params)}`)
+    })
 }
 // 删除操作
-const handleRemovePosition = async function ()  {
+const handleRemovePosition = async function (_page)  {
     let id = $(this).parents('tr').data('id')
-    console.log(id);
+    console.log(_page);
     
-    let _data = await position_model.remove({id: id}) 
+    let _data = await position_model.remove({id: id,..._page}) 
     console.log(_data);
      
     handleToastByData(_data, {
         isReact: false,
         success: (data) => {
-            // 删除成功后
-            bus.emit('go', '/position-list?_='+data.deleteId)
+             // 删除成功后，i依然需要将pageNo带上，否则，删除后，重新渲染的时候会回到默认的第一页
+            let _pageNo = _page.pageNo
+            _pageNo -= data.isBack ? 1 : 0
+            bus.emit('go', '/position-list?pageNo='+_pageNo+'&_='+data.deleteId+ '&search='+_page.search)
         }
     })
 }
@@ -127,11 +154,11 @@ const handleUpdateSubmit = async function (e) {
     e.preventDefault();
     let _datastr = $(this).serialize()
     let _data = qs.parse(_datastr)
+   
+    console.log(_datastr,_data,"serilaze");
     
-   // console.log(_data);
-    
-
-    let _results = await position_model.update(_data)  
+    //改为插件后无需上传_data
+    let _results = await position_model.update()  
     handleToastByData(_results)
 }
 

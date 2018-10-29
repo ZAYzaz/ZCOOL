@@ -48,15 +48,65 @@ var PositionModel = mongoose.model('job', new mongoose.Schema({
     area: String
 }));
 
-// 返回列表数据
-const list = () => {
+
+// 返回列表全部数据
+const listall = (_query = {}) => {
     // limit skip
-    
-    let _query = {}// 查询的约定条件
+
+
+    return PositionModel.find(_query).sort({ createTime: -1 }).then((results) => {
+        return results
+    }).catch((err) => {
+        return false
+    })
+}
+// 返回列表数据
+const list = async ({ pageNo = 1, pageSize = 10, search = '' }) => {
+    //模糊搜索的查询条件  
+    let reg = new RegExp(search, 'g')
+    // limit skip
+
+    let _query = { // 匹配各个字段值只要有一个字段含有关键字
+        $or: [//表示符合某一项，则匹配
+
+            { logo: reg },
+            { post_name: reg },
+            { companyltd: reg },
+            { post_salary: reg },
+            { city: reg },
+            { city_id: reg },//eg: 3021,
+            { experience_name: reg },
+            { diploma_name: reg }, 
+            { tag: reg },
+            { industryAndStageName: reg },
+            { industryName: reg },
+            { stage_name: reg },
+            { size_name: reg },
+            { requirement: reg },
+
+        ]
+    }// 查询的约定条件
+
+    let _all_items = await listall(_query)//在所有列表中查询
+
     return PositionModel.find(_query)
         .sort({ createTime: -1 })
+
+        .skip((pageNo - 1) * pageSize)// 从哪一页开始
+        .limit(~~pageSize)// 截取多少
+
+
         .then((results) => {
-            return results
+            return {
+                items: results,
+                pageInfo: { // 页码信息
+                    pageNo, // 当前页
+                    pageSize, // 一页数量
+                    total: _all_items.length, // 总数
+                    totalPage: Math.ceil(_all_items.length / pageSize), // 总页数
+                    search  // 搜索关键字
+                }
+            }
         }).catch((err) => {
             return false
         })
@@ -68,13 +118,13 @@ let default_logo = '/uploads/logos/default.jpg'
 const save = (body) => {
     // 此时的时间
     console.log('保存接口', body);
-    
-    console.log('保存body展开',{...body});
+
+    console.log('保存body展开', { ...body });
     let _timestamp = Date.now()
     // 根据这个时间创建moment
     let moment = Moment(_timestamp)
     //输入图片则保存输入图片，否则显示默认图片
-    body.logo=body.logo||default_logo;
+    body.logo = body.logo || default_logo;
 
     return new PositionModel({
         ...body,
@@ -92,22 +142,30 @@ const save = (body) => {
 }
 
 // 删除职位的model
-const remove = async ({ id }) => {
+const remove = async ({ id, pageNo, pageSize }) => {
     // 删除数据库中的某一条数据
 
 
     //删除一条数据时，将对应的图片删除 
     let _row = await listone({ id })
-    console.log(_row);
 
-    console.log('remove接口', id);
 
-    return PositionModel.deleteOne({ _id: id }).then((results) => {
+    return PositionModel.deleteOne({ _id: id }).then(async (results) => {
+
+        //  获取最新的数量
+        let _all_items = await listall()
+
         results.deleteId = id
-        fs.removeSync(PATH.resolve(__dirname, '../public' + _row.logo))
+        results.isBack = (pageNo - 1) * pageSize >= _all_items.length
+
+        console.log("isBack", results.isBack, pageNo, pageSize);
+        // 有图片就删图片
+        if (_row.logo && _row.logo !== default_logo) {
+            fs.removeSync(PATH.resolve(__dirname, '../public' + _row.logo))
+        }
         return results
     }).catch((err) => {
-        fs.appendFileSync('./logs/logs.txt', Moment().format("YYYY-MM-DD, hh:mm") + '' + JSON.stringify(err))
+        //fs.appendFileSync('./logs/logs.txt', Moment().format("YYYY-MM-DD, hh:mm") + '' + JSON.stringify(err))
         return false
     })
 }
@@ -124,9 +182,13 @@ const listone = ({ id }) => {
 }
 
 const update = (body) => {
+    //如果用户未上传logo,则把logo字段删除，防止覆盖之前的logo字段
+    //console.log('update接口1', body);
+    if (!body.logo) delete body.logo
 
-    console.log('update接口', body);
+    // console.log('update接口2', body);
 
+    //是否重新发布
     if (body.republish) {
         let _timestamp = Date.now()
         let moment = Moment(_timestamp)
@@ -140,6 +202,7 @@ const update = (body) => {
     })
 }
 module.exports = {
+    listall,
     list,
     save,
     remove,

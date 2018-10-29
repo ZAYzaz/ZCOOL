@@ -1,0 +1,29 @@
+<!-- 
+<h1>
+    站酷(ZCOOL)
+    <small>-设计师互动平台-打开站酷，发现更好</small>
+</h1>
+<ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> home(主页)</a></li>
+    <li class="active">当前</li>
+</ol> -->
+
+<h1>
+        {{ title }}
+        <small>{{ description }}</small>
+    </h1>
+    <ol class="breadcrumb">
+             
+        <li><a href="#/home"><i class="fa fa-dashboard"></i> home(主页)</a></li>
+
+         
+
+        <% for(var i = 0; i<list.length; i++) { %>
+                <li class="<%=  i === (list.length-1) ? 'active': '' %>">
+                    
+                    <a href="<%= list[i].path ? list[i].path : 'javascript:void(0)' %>">
+                         {{list[i].text}}
+                    </a>
+                </li>
+            <% } %>
+    </ol>
