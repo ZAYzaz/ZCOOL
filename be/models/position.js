@@ -69,7 +69,7 @@ const list = async ({ pageNo = 1, pageSize = 10, search = '' }) => {
     let _query = { // 匹配各个字段值只要有一个字段含有关键字
         $or: [//表示符合某一项，则匹配
 
-            { logo: reg },
+           // { logo: reg },
             { post_name: reg },
             { companyltd: reg },
             { post_salary: reg },

@@ -7,6 +7,7 @@ module.exports = {
     // 入口
     entry: {
         main: ['./src/javascripts/app'],
+        admin: ['./src/javascripts/admin'],
     },
     // 出口
     output: {
@@ -31,6 +32,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: 'index.html'
+        }),
+        new HtmlWebpackPlugin({ 
+            template: './src/admin.html',
+            filename: 'admin.html',
+            chunks: ['admin']
         }),
         new CopyWebpackPlugin([{
             from: PATH.resolve(__dirname, '../static'),

@@ -121,7 +121,7 @@
               <!-- The user image in the navbar-->
               <img src="/static/libs/adminLTE/images/user2-160x160.jpg" class="user-image" alt="User Image">
               <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
+              <span class="hidden-xs  nickname">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
@@ -129,8 +129,11 @@
                 <img src="/static/libs/adminLTE/images/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
+                  <!-- Alexander Pierce - Web Developer --> 
+                  <!-- <small>Member since Nov. 2012</small>  -->
+                  
+                  <span class="nickname"></span>
+                  <small>已经可以管理职位信息</small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -154,7 +157,7 @@
                   <a href="#" class="btn btn-default btn-flat">设置</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">退出</a>
+                  <a href="javascript:void(0)" class="btn btn-default btn-flat exit-btn">退出</a>
                 </div>
               </li>
             </ul>
@@ -179,7 +182,8 @@
           <img src="/static/libs/adminLTE/images/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p>Alexander Pierce</p>
+          <!-- <p>Alexander Pierce</p> -->
+          <p> <span class="nickname"></span></p>
           <!-- Status -->
           <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
         </div>
