@@ -146,23 +146,31 @@ const remove = async ({ id, pageNo, pageSize }) => {
     // 删除数据库中的某一条数据
 
 
+    console.log('删除1');
+    
     //删除一条数据时，将对应的图片删除 
     let _row = await listone({ id })
 
-
+    console.log('删除2',_row);
     return PositionModel.deleteOne({ _id: id }).then(async (results) => {
 
         //  获取最新的数量
         let _all_items = await listall()
 
+        console.log('删除3',_all_items.length);
+
         results.deleteId = id
         results.isBack = (pageNo - 1) * pageSize >= _all_items.length
 
-        console.log("isBack", results.isBack, pageNo, pageSize);
+        console.log("isBack", results.isBack, pageNo,results);
         // 有图片就删图片
         if (_row.logo && _row.logo !== default_logo) {
             fs.removeSync(PATH.resolve(__dirname, '../public' + _row.logo))
         }
+        // if(pageNo==0&&results.isBack){//当为第一页的最后一个时，pageNo=0，就无法删除，可手动置1
+        //     pageNo=1
+            
+        // }
         return results
     }).catch((err) => {
         //fs.appendFileSync('./logs/logs.txt', Moment().format("YYYY-MM-DD, hh:mm") + '' + JSON.stringify(err))

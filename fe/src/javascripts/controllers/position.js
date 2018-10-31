@@ -43,7 +43,7 @@ const bindListEvent = (_page) => {
     $('.position-list .pos-update').on('click', function () {
         let id = $(this).parents('tr').data('id')
 
-        console.log(id);
+        //console.log(id);
         
         bus.emit('go','/position-update', { id })
     })
@@ -67,17 +67,25 @@ const bindListEvent = (_page) => {
 // 删除操作
 const handleRemovePosition = async function (_page)  {
     let id = $(this).parents('tr').data('id')
-    console.log(_page);
+    console.log('_page哎',_page);
     
     let _data = await position_model.remove({id: id,..._page}) 
-    console.log(_data);
+    console.log('_data哎',_data);
      
     handleToastByData(_data, {
         isReact: false,
         success: (data) => {
              // 删除成功后，i依然需要将pageNo带上，否则，删除后，重新渲染的时候会回到默认的第一页
             let _pageNo = _page.pageNo
+            console.log('_pageNo啊',_pageNo);
+            //若data.isBack为ture则，页码减1，否则减0，进行翻页操作
             _pageNo -= data.isBack ? 1 : 0
+             
+            //判断，如果是第一页的最后一个，经过上面减一，就变成pageNo=0了，所以要加_pageNo=1
+            if(_pageNo===0) {
+                _pageNo=1
+            }
+            
             bus.emit('go', '/position-list?pageNo='+_pageNo+'&_='+data.deleteId+ '&search='+_page.search)
         }
     })
@@ -152,10 +160,10 @@ const bindUpdateEvent = () => {
 //点击修改页面的提交按钮时的操作
 const handleUpdateSubmit = async function (e) {
     e.preventDefault();
-    let _datastr = $(this).serialize()
-    let _data = qs.parse(_datastr)
+    // let _datastr = $(this).serialize()
+    // let _data = qs.parse(_datastr)
    
-    console.log(_datastr,_data,"serilaze");
+    // console.log(_datastr,_data,"serilaze");
     
     //改为插件后无需上传_data
     let _results = await position_model.update()  

@@ -3,7 +3,7 @@ import URL from 'url'
 
 const pageHeaderInfo = (url,prevUrl)=>{
 
-    console.log('url路径',url,prevUrl);
+    console.log('url路径',url,'前一个url路径',prevUrl,'bbbbb前一个url路径');
     
     let _urlinfo = URL.parse(url)
     let _pathname = _urlinfo.pathname

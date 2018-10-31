@@ -52,6 +52,7 @@ const signin = async (req,res,next)=>{
                 userid: _judge_result[0]._id,
                 username: _judge_result[0].username,
                 level: 3,
+                //iat: + new Date()
             }
             let _cert = 'i hate u' // 密钥
             var _token = jwt.sign(_payload, _cert);

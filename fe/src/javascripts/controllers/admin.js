@@ -24,9 +24,9 @@ const bindEvent = () =>{
         let _params = $(this).serialize()//获取表单中的数据，并把它序列号
         let _result = await admin_model.signup(qs.parse(_params))  
 
-        console.log(_result);
+        // console.log(_result);
 
-        console.log('注册');
+        // console.log('注册');
 
         switch ( _result.status ) {
             case 500: toast('失败，服务器出了问题'); break;
@@ -41,21 +41,27 @@ const bindEvent = () =>{
     })
           // 登录表单
     $('#admin-content').on('submit', '#signin-form', async function (e) {
+       
+        // console.log('登录');
+        
+
         e.preventDefault()
         let _params = $(this).serialize()
         
         $.cookie('connect.sid', { expires: -1 })//每次登录，都将cookie时效设为无效
         let _result = await admin_model.signin(qs.parse(_params))  
 
-        console.log(_result);
-       console.log('登录');
- 
+    //     console.log(_result);
+    //    console.log('登录');
+    //    console.log(_result.status);
        switch ( _result.status ) {
+           
+           
             case 203: toast('密码错误'); break;
             case 202:  toast('用户不存在'); break;
             default: 
                 localStorage.token = _result.data.token
-                window.location.href = "/"; 
+               window.location.href = "/"; 
             break;
         }
         

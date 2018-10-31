@@ -13,6 +13,8 @@ import page_header_controller from '../controllers/page-header'
 // page-header model
 import page_header_model from '../models/page-header'
 
+import map_controller from '../controllers/map'
+
 var router = null
 
 // 记录上一次路由跳转的url
@@ -43,7 +45,8 @@ const _init = () => {
     
     router.route('/position-update', position_controller.update)
 
-
+    // 地图
+    router.route('/map', map_controller.map)
    
 
    // 404路由

@@ -48,6 +48,7 @@ const remove = async (req, res) => {
     
     //请求方式为get时，为req.query,采用delete之后，需改为req.body
     let _data = await position_model.remove(req.body)
+    console.log('删除req.body',req.body);
     
     handleData(_data, res, 'position')
 }

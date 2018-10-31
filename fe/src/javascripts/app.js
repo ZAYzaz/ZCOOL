@@ -8,6 +8,7 @@ const body_template = require('./views/body.html')
 // 引入登录权限验证
 import { userSigninAuth } from './util/auth'
 import user_controller from './controllers/user'
+import { log } from 'util';
 
 // 渲染整体内容结构
 $('#wrapper').html(body_template) 
@@ -18,15 +19,23 @@ $('#wrapper').html(body_template)
 
 const init = async ()=>{
     let isSignIn = await userSigninAuth()
+   // alert(isSignIn,5555)
+   // console.log('isSingIn1',isSingIn);
+    
     if ( isSignIn ) {
+        //console.log('isSingIn2',isSingIn);
         $('#wrapper').removeClass('hidden')
              
         router.init()
         user_controller.renderUserInfo()       
     }else {
+       // console.log('isSingIn3',isSingIn);
         window.location.href="/admin.html"
     }
 
 }
 
 init()
+
+
+
