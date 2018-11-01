@@ -1,0 +1,54 @@
+<div class="box box-info activity-save">
+    <div class="box-header with-border">
+        <h3 class="box-title">添加职位信息</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form class="form-horizontal" id="save-form" enctype="multipart/form-data">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="logo" class="col-sm-2 control-label">活动海报</label>
+
+                <div class="col-sm-10">
+                    <input   type="file" name="logo" id="logo">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="activity_name" class="col-sm-2 control-label">活动名称</label> 
+                <div class="col-sm-10">
+                    <input required type="text" class="form-control" name="activity_name" id="activity_name" placeholder="请输入活动名字">
+                </div>
+            </div> 
+            <div class="form-group">
+                <label for="activity_hoster" class="col-sm-2 control-label">主办方</label> 
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="activity_hoster" id="activity_hoster" placeholder="请输入主办方名称">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="view_num" class="col-sm-2 control-label">浏览数量</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="view_num" id="view_num" placeholder="浏览数量">
+                </div>
+            </div>
+ 
+            <div class="form-group">
+                <label for="collect_num" class="col-sm-2 control-label">收藏数量</label>
+
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="collect_num" id="collect_num" placeholder="请输入收藏数量">
+                </div>
+            </div>
+              
+            
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button" id="back" class="btn btn-default">返回列表</button>
+            <button type="submit" class="btn btn-info pull-right">提交</button>
+            <button type="reset" class="btn btn-default pull-right" style="margin-right: 15px">重置</button>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+</div>

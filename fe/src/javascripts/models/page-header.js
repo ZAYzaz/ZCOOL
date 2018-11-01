@@ -3,7 +3,7 @@ import URL from 'url'
 
 const pageHeaderInfo = (url,prevUrl)=>{
 
-    console.log('url路径',url,'前一个url路径',prevUrl,'bbbbb前一个url路径');
+   
     
     let _urlinfo = URL.parse(url)
     let _pathname = _urlinfo.pathname
@@ -43,6 +43,29 @@ const pageHeaderInfo = (url,prevUrl)=>{
             list: [
                 { text: '职位列表', path: '#/position-list'+_search },
                 { text: '职位更新'}
+            ]
+        },
+        '/activity/activity-list': {
+            title: '活动管理',
+            description: '活动列表',
+            list: [
+                { text: '活动列表' }
+            ]
+        },
+        '/activity/activity-save': {
+            title: '活动管理',
+            description: '添加活动',
+            list: [
+                { text: '活动列表', path: '#/activity/activity-list'+_search },
+                { text: '添加活动'}
+            ]
+        },
+        '/activity/activity-update': {
+            title: '活动管理',
+            description: '活动更新',
+            list: [
+                { text: '活动列表', path: '#/activity/activity-list'+_search },
+                { text: '活动更新'}
             ]
         }
     }

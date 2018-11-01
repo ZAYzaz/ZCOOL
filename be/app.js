@@ -11,6 +11,7 @@ var session = require('express-session')
 // 路由工具
 var indexRouter = require('./routes/index'); 
 var positionRouter = require('./routes/position');
+var activityRouter = require('./routes/activity');
  
 var adminRouter = require('./routes/admin');
 var userRouter = require('./routes/user');
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
  
 app.use('/api/'+ version +'/position', positionRouter);
+app.use('/api/'+ version +'/activity', activityRouter);
 
 app.use('/api/'+ version +'/admin', adminRouter);
 app.use('/api/'+ version +'/user', userRouter);
