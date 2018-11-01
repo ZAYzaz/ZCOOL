@@ -7,6 +7,15 @@ import match_model from '../models/match_mondel'
 import { bus, handleToastByData } from '../util'
 import qs from 'querystring'
 
+//判断删除状态防止用户多次点击
+
+//用户不停点击时可能存在原本dom对应的数据信息已经被删除，但是页面没来得及渲染所以
+//dom仍然存在，连续的点击dom但是信息已经消失,ajax拿不到数据，promise报错
+
+//解决办法:定义一个删除状态，在页面渲染之后再允许操作
+let _isRemoving = false;
+
+
 //列表视图的控制器
 const list  = async (req,res,next)=>{
     req.query = req.query || {}
@@ -23,6 +32,9 @@ const list  = async (req,res,next)=>{
         data:(await match_model.list(_page)).data
     })
     res.render(_html)
+
+    //设置状态为  不是正在删除
+    _isRemoving = false;
     bindListEvent(_page);
 
     //搜索框显示搜受关键字
@@ -123,10 +135,17 @@ const handleUpdateSubmit = async function (e) {
 
 
 //删除操作
-const handleRemovematch = async function(_page){
+//防止多次操作
 
+const handleRemovematch = async function(_page){
+    //  如果状态为正在删除则直接返回
+    if(_isRemoving) return false;
     let id = $(this).parents('tr').data('id');
-    let _data = await match_model.remove({id:id,..._page})
+    //修改状态为  正在删除
+    _isRemoving = true;
+    let _data = await match_model.remove({id:id,..._page});
+    console.log("哈哈哈哈")
+    
     handleToastByData(_data,{
         isReact:false,
         success: (data)=>{
