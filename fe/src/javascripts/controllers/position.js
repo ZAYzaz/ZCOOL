@@ -14,6 +14,14 @@ import qs from 'querystring'
 
 import { log } from 'util';
 
+//判断删除状态防止用户多次点击
+
+//用户不停点击时可能存在原本dom对应的数据信息已经被删除，但是页面没来得及渲染所以
+//dom仍然存在，连续的点击dom但是信息已经消失,ajax拿不到数据，promise报错
+
+//解决办法:定义一个删除状态，在页面渲染之后再允许操作
+let _isRemoving = false
+
 // 列表视图的控制器
 const list = async (req, res, next) => {
     req.query=req.query||{}
@@ -28,6 +36,7 @@ const list = async (req, res, next) => {
         data: (await position_model.list(_page)).data // 获取到列表数据
     })
     res.render(html)
+    _isRemoving = false;
     bindListEvent(_page)// 给添加按钮绑定事件
 
     // 显示搜索关键字
@@ -67,10 +76,9 @@ const bindListEvent = (_page) => {
 // 删除操作
 const handleRemovePosition = async function (_page)  {
     let id = $(this).parents('tr').data('id')
-    console.log('_page哎',_page);
-    
+    if(_isRemoving)  return false
+    _isRemoving = true
     let _data = await position_model.remove({id: id,..._page}) 
-    console.log('_data哎',_data);
      
     handleToastByData(_data, {
         isReact: false,
