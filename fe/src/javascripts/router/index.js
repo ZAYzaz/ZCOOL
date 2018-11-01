@@ -6,6 +6,7 @@ import home_template from '../views/home.html'
 import not_found_template from '../views/404.html'
 
 import position_controller from '../controllers/position'
+import activity_controller from '../controllers/activity'
 
 import match_controller from '../controllers/match'
 
@@ -54,6 +55,12 @@ const _init = () => {
 
     router.route('/position-update', position_controller.update)
 
+    router.route('/activity/activity-save', activity_controller.save)
+
+    router.route('/activity/activity-list', activity_controller.list)
+
+    
+    router.route('/activity/activity-update', activity_controller.update)
 
 
     // 地图
