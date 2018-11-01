@@ -20,6 +20,6 @@ router.delete('/remove',match_controller.remove);
 
 router.get('/listone', match_controller.listone)
 
-router.post('/update', match_controller.update)
+router.post('/update',fileUpload, match_controller.update)
 
 module.exports = router;
