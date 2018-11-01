@@ -44,6 +44,29 @@ const pageHeaderInfo = (url,prevUrl)=>{
                 { text: '职位列表', path: '#/position-list'+_search },
                 { text: '职位更新'}
             ]
+        },
+        '/match-list': {
+            title: '赛事管理',
+            description: '赛事列表',
+            list: [
+                { text: '赛事列表' }
+            ]
+        },
+        '/match-save': {
+            title: '赛事管理',
+            description: '添加赛事',
+            list: [
+                { text: '职位赛事', path: '#/match-list'+_search },
+                { text: '添加赛事'}
+            ]
+        },
+        '/match-update': {
+            title: '赛事管理',
+            description: '赛事更新',
+            list: [
+                { text: '赛事列表', path: '#/match-list'+_search },
+                { text: '赛事更新'}
+            ]
         }
     }
     return _infos[_pathname] || {  }
