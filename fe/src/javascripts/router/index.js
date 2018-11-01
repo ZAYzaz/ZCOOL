@@ -6,6 +6,9 @@ import home_template from '../views/home.html'
 import not_found_template from '../views/404.html'
 
 import position_controller from '../controllers/position'
+import activity_controller from '../controllers/activity'
+
+import match_controller from '../controllers/match'
 
 // page-header 控制器
 import page_header_controller from '../controllers/page-header'
@@ -31,19 +34,34 @@ const _init = () => {
     })
 
     // 保证都能匹配到，中间都能执行
-    router.route('/', renderPageHeader)
+    router.route('/', renderPageHeader)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
     
 
     router.route('/home', (req, res, next) => { // 当路由切换进来的时候执行
         res.render(home_template)
     })
 
+
+    router.route('/match-save', match_controller.save)
+
+    router.route('/match-list', match_controller.list)
+
+    router.route('/match-update', match_controller.update)
+
+
     router.route('/position-save', position_controller.save)
 
     router.route('/position-list', position_controller.list)
 
-    
     router.route('/position-update', position_controller.update)
+
+    router.route('/activity/activity-save', activity_controller.save)
+
+    router.route('/activity/activity-list', activity_controller.list)
+
+    
+    router.route('/activity/activity-update', activity_controller.update)
+
 
     // 地图
     router.route('/map', map_controller.map)

@@ -1,26 +1,18 @@
  
 
 import { bus, handleToastByData } from '../util'
-// 职位列表视图
-import position_list_template from '../views/position-list.html'
-// 添加职位视图
-import position_save_template from '../views/position-save.html'
-// 修改职位视图
-import position_update_template from '../views/position-update.html'
+// 活动列表视图
+import activity_list_template from '../views/activity/activity-list.html'
+// 添加活动视图
+import activity_save_template from '../views/activity/activity-save.html'
+// 修改活动视图
+import activity_update_template from '../views/activity/activity-update.html'
 // model
-import position_model from '../models/position'
+import activity_model from '../models/activity'
 
 import qs from 'querystring'
 
 import { log } from 'util';
-
-//判断删除状态防止用户多次点击
-
-//用户不停点击时可能存在原本dom对应的数据信息已经被删除，但是页面没来得及渲染所以
-//dom仍然存在，连续的点击dom但是信息已经消失,ajax拿不到数据，promise报错
-
-//解决办法:定义一个删除状态，在页面渲染之后再允许操作
-let _isRemoving = false
 
 // 列表视图的控制器
 const list = async (req, res, next) => {
@@ -32,60 +24,60 @@ const list = async (req, res, next) => {
         search: req.query.search||''
     }
     // 编译模板 
-    let html = template.render(position_list_template, {
-        data: (await position_model.list(_page)).data // 获取到列表数据
+    let html = template.render(activity_list_template, {
+        data: (await activity_model.list(_page)).data // 获取到列表数据
     })
     res.render(html)
-    _isRemoving = false;
     bindListEvent(_page)// 给添加按钮绑定事件
 
     // 显示搜索关键字
-    $('.position-list #keywords').val(_page.search)
+    $('.activity-list #keywords').val(_page.search)
 }
 
 // list的事件绑定
 const bindListEvent = (_page) => {
     // 添加按钮点击跳转到添加路由
-    $('.position-list #addbtn').on('click', function () {
-        bus.emit('go','/position-save')
+    $('.activity-list #addbtn').on('click', function () {
+        bus.emit('go','/activity/activity-save')
     })
-    $('.position-list .pos-update').on('click', function () {
+    $('.activity-list .act-update').on('click', function () {
         let id = $(this).parents('tr').data('id')
 
         //console.log(id);
         
-        bus.emit('go','/position-update', { id })
+        bus.emit('go','/activity/activity-update', { id })
     })
-    $('.pos-remove').on('click', function(){
+    $('.act-remove').on('click', function(){
         //console.log("前端删除1");
     
       // handleRemovePosition.bind(this,_page)()//要调用，否则不执行 
 
-       handleRemovePosition.call(this, _page)
+       handleRemoveActivity.call(this, _page)
     })
-    $('.position-list #possearch').on('click', function () {
-        let _search = $('.position-list #keywords').val()
+    $('.activity-list #actsearch').on('click', function () {
+        let _search = $('.activity-list #keywords').val()
         // 重新刷新路由 ，注意，页码回复到1
         let _params = {
             search: _search,
             pageNo: 1
         }
-        bus.emit('go',`/position-list?${$.param(_params)}`)
+        bus.emit('go',`/activity/activity-list?${$.param(_params)}`)
     })
 }
 // 删除操作
-const handleRemovePosition = async function (_page)  {
+const handleRemoveActivity = async function (_page)  {
     let id = $(this).parents('tr').data('id')
-    if(_isRemoving)  return false
-    _isRemoving = true
-    let _data = await position_model.remove({id: id,..._page}) 
+   
+    
+    let _data = await activity_model.remove({id: id,..._page}) 
+    
      
     handleToastByData(_data, {
         isReact: false,
         success: (data) => {
              // 删除成功后，i依然需要将pageNo带上，否则，删除后，重新渲染的时候会回到默认的第一页
             let _pageNo = _page.pageNo
-            console.log('_pageNo啊',_pageNo);
+           
             //若data.isBack为ture则，页码减1，否则减0，进行翻页操作
             _pageNo -= data.isBack ? 1 : 0
              
@@ -94,24 +86,24 @@ const handleRemovePosition = async function (_page)  {
                 _pageNo=1
             }
             
-            bus.emit('go', '/position-list?pageNo='+_pageNo+'&_='+data.deleteId+ '&search='+_page.search)
+            bus.emit('go', '/activity/activity-list?pageNo='+_pageNo+'&_='+data.deleteId+ '&search='+_page.search)
         }
     })
 }
 
 // save视图的控制器
 const save = async (req, res, next) => { 
-    res.render(position_save_template)
+    res.render(activity_save_template)
     bindSaveEvent()
 }
 
 // save的事件绑定
 const bindSaveEvent = () => {
     // 返回按钮逻辑
-    $('.position-save #back').on('click', function () {
-        bus.emit('go', '/position-list')
+    $('.activity-save #back').on('click', function () {
+        bus.emit('go', '/activity/activity-list')
     })
-    $('.position-save #save-form').submit(handleSaveSubmit)
+    $('.activity-save #save-form').submit(handleSaveSubmit)
 }
 
 // 开关防止多次提交
@@ -128,8 +120,8 @@ const handleSaveSubmit = async function (e) {
     // let result = await position_model.save(_params)
 
     //当引入jquery.form.js插件时，就不需要像上面那样写了,会通过在models中的ajaxSubmit直接取到
-    let result = await position_model.save()
-    console.log(result);
+    let result = await activity_model.save()
+    
     
 
     _isLoading = false
@@ -149,8 +141,8 @@ const update = async (req, res) => {
     
     let { id } = req.body// 要更新的数据的id
     // 获取id对应的数据进行渲染
-    let html = template.render(position_update_template, {
-        data: (await position_model.listone({ id })).data // 获取到列表数据
+    let html = template.render(activity_update_template, {
+        data: (await activity_model.listone({ id })).data // 获取到列表数据
     })
     res.render(html)
     bindUpdateEvent()
@@ -158,11 +150,11 @@ const update = async (req, res) => {
 
 const bindUpdateEvent = () => {
     // 返回按钮逻辑
-    $('.position-update #back').on('click', function () {
-        bus.emit('go', '/position-list')
+    $('.activity-update #back').on('click', function () {
+        bus.emit('go', '/activity/activity-list')
     })
 
-    $('.position-update #update-form').submit(handleUpdateSubmit)
+    $('.activity-update #update-form').submit(handleUpdateSubmit)
 }
 
 //点击修改页面的提交按钮时的操作
@@ -174,7 +166,7 @@ const handleUpdateSubmit = async function (e) {
     // console.log(_datastr,_data,"serilaze");
     
     //改为插件后无需上传_data
-    let _results = await position_model.update()  
+    let _results = await activity_model.update()  
     handleToastByData(_results)
 }
 

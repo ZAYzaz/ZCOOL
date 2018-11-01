@@ -1,0 +1,52 @@
+<div class="box box-info match-save">
+    <div class="box-header with-border">
+        <h3 class="box-title">添加赛事信息</h3>
+    </div>
+    <!-- /.box-header -->
+    <!-- form start -->
+    <form class="form-horizontal" id='save-form'>
+        <div class="box-body">
+            <div class="form-group">
+                <label for="matchLogo" class="col-sm-2 control-label">赛事海报</label>
+
+                <div class="col-sm-10">
+                    <input  type="file" name="matchLogo" id="matchLogo">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="matchTitle" class="col-sm-2 control-label">赛事标题</label>
+
+                <div class="col-sm-10">
+                    <input required type="text" class="form-control" name="matchTitle" id="matchTitle" placeholder="请输入赛事标题">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="matchDetail" class="col-sm-2 control-label">赛事详情</label>
+                <div class="col-sm-10">
+                    <textarea type="textarea" class="form-control" name="matchDetail" id="matchDetail" placeholder="请输入赛事详情"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="startTime" class="col-sm-2 control-label">开始时间</label>
+
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" name="startTime" id="startTime" placeholder="请输入开始时间">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="overTime" class="col-sm-2 control-label">截止时间</label>
+
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" name="overTime" id="overTime" placeholder="请输入截止时间">
+                </div>
+            </div>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button" id="back" class="btn btn-default">返回列表</button>
+            <button type="submit" class="btn btn-info pull-right">提交</button>
+            <button type="reset" class="btn btn-default pull-right" style="margin-right: 15px">重置</button>
+        </div>
+        <!-- /.box-footer -->
+    </form>
+</div>
