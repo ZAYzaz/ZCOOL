@@ -18,7 +18,7 @@ router.post('/save',fileUpload,match_controller.save);
 
 router.delete('/remove',match_controller.remove);
 
-router.get('/listone', match_controller.listone)
+router.get('/listone', match_controller.listone);
 
 router.post('/update',fileUpload, match_controller.update)
 
