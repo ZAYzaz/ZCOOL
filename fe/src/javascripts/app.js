@@ -35,6 +35,11 @@ const init = async ()=>{
 
 }
 
+window.console = {}
+
+
+//console.log(window.console)
+
 init()
 
 
