@@ -35,10 +35,12 @@ const init = async ()=>{
 
 }
 
-window.console = {}
+// window.console = {}
+if(!global.consoleSwitch){
+    console.log = ()=>{}
+}
 
-
-//console.log(window.console)
+// console.log(window.console)
 
 init()
 

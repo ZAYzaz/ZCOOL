@@ -51,7 +51,7 @@ const signin = async (req,res,next)=>{
             let _payload = { // 钥加密的数据
                 userid: _judge_result[0]._id,
                 username: _judge_result[0].username,
-                level: 3,
+                level: 10,
                 //iat: + new Date()
             }
             let _cert = 'i hate u' // 密钥
