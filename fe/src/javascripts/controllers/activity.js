@@ -14,6 +14,9 @@ import qs from 'querystring'
 
 import { log } from 'util';
 
+
+let _isRemoving = false
+
 // 列表视图的控制器
 const list = async (req, res, next) => {
     req.query=req.query||{}
@@ -28,6 +31,7 @@ const list = async (req, res, next) => {
         data: (await activity_model.list(_page)).data // 获取到列表数据
     })
     res.render(html)
+    _isRemoving = false;
     bindListEvent(_page)// 给添加按钮绑定事件
 
     // 显示搜索关键字
@@ -67,10 +71,9 @@ const bindListEvent = (_page) => {
 // 删除操作
 const handleRemoveActivity = async function (_page)  {
     let id = $(this).parents('tr').data('id')
-   
-    
+    if(_isRemoving)  return false
+    _isRemoving = true
     let _data = await activity_model.remove({id: id,..._page}) 
-    
      
     handleToastByData(_data, {
         isReact: false,

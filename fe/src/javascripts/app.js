@@ -35,6 +35,13 @@ const init = async ()=>{
 
 }
 
+// window.console = {}
+if(!global.consoleSwitch){
+    console.log = ()=>{}
+}
+
+// console.log(window.console)
+
 init()
 
 

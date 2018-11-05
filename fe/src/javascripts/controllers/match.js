@@ -19,9 +19,6 @@ let _isRemoving = false;
 //列表视图的控制器
 const list  = async (req,res,next)=>{
     req.query = req.query || {}
-
-    console.log("match-list123123")
-
     let _page = {
         pageNo: req.query.pageNo || 1,
         pageSize: req.query.pageSize || 10,
@@ -107,6 +104,9 @@ const update = async(req,res)=>{
     let _html = template.render(match_update_template,{
         data:(await match_model.listone( { id } )).data
     })
+
+    console.log(await match_model.listone( { id } ))
+
     res.render(_html)
     //绑定事件
     bindUpdateEvent()
@@ -124,9 +124,9 @@ const bindUpdateEvent = () => {
 //提交一条数数据更新
 const handleUpdateSubmit = async function (e) {
     e.preventDefault();
-    let _datastr = $(this).serialize()
-    let _data = qs.parse(_datastr)
-    let _results = await match_model.update(_data)  
+   // let _datastr = $(this).serialize()
+   // let _data = qs.parse(_datastr)
+    let _results = await match_model.update()  
     handleToastByData(_results)
 }
 

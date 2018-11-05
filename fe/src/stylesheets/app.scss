@@ -2,3 +2,19 @@
 @import './modules/position-list';
 
 @import './modules/activity-list';
+.callout.callout-info {
+     border-color: transparent;
+     background-color:  #ece4df !important;
+}
+
+.skin-blue .main-header .navbar {
+    background-color: #1d2b33;
+}
+.skin-blue .main-header .logo {
+    background-color:#1d2b33;
+    
+}
+.callout h4 {
+    
+    color: #b36d6d;
+}
